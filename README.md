@@ -61,7 +61,7 @@ docker-compose down
 ```
 
 
-Enjoy our Bus Ticket Booking System!
+Enjoy the Bus Ticket Booking System!
 
 ## Usage
 
