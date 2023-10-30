@@ -26,5 +26,4 @@ public class TicketController {
     public Ticket bookTicket(@RequestBody Ticket ticket) {
         return service.bookTicket(ticket);
     }
-
 }

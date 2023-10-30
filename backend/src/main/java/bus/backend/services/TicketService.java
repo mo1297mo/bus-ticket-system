@@ -34,9 +34,11 @@ public class TicketService {
         return busRepo.findByRouteId(routeId);
     }
 
+    public List<Route> getAllRoutes() {
+        return routeRepo.findAll();
+    }
+
     // Additional methods as required, e.g.:
     // - Cancel a ticket
-    // - Get routes by some criteria
-    // - Update a bus's information
-    // - etc.
+
 }

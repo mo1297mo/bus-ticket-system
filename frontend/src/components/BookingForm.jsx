@@ -8,6 +8,10 @@ function BookingForm() {
     const [selectedBus, setSelectedBus] = useState(null);
     const [userName, setUserName] = useState("");
     const [userEmail, setUserEmail] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    // Base URL setup
+    axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8000";
 
     useEffect(() => {
         // Fetch the routes
@@ -17,23 +21,33 @@ function BookingForm() {
             })
             .catch(error => {
                 console.error("Error fetching routes:", error);
+                alert("Failed to fetch routes. Please try again.");
             });
     }, []);
 
     useEffect(() => {
         if (selectedRoute) {
             // Fetch the buses for the selected route
-            axios.get(`/api/buses/${selectedRoute}`)
+            axios.get(`/api/routes/${selectedRoute}/buses`)
                 .then(response => {
                     setBuses(response.data);
                 })
                 .catch(error => {
                     console.error("Error fetching buses:", error);
+                    alert("Failed to fetch buses for the selected route. Please try again.");
                 });
         }
     }, [selectedRoute]);
 
+    const resetForm = () => {
+        setSelectedRoute(null);
+        setSelectedBus(null);
+        setUserName("");
+        setUserEmail("");
+    };
+
     const handleBooking = () => {
+        setIsLoading(true);
         const bookingDetails = {
             routeId: selectedRoute,
             busId: selectedBus,
@@ -43,9 +57,14 @@ function BookingForm() {
         axios.post('/api/tickets/book', bookingDetails)
             .then(response => {
                 alert('Booking confirmed!');
+                resetForm();
             })
             .catch(error => {
                 console.error("Error during booking:", error);
+                alert('Booking failed. Please try again.');
+            })
+            .finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -54,7 +73,7 @@ function BookingForm() {
             <h2>Booking Form</h2>
             <div>
                 <label>Select Route:</label>
-                <select onChange={e => setSelectedRoute(e.target.value)}>
+                <select value={selectedRoute || ''} onChange={e => setSelectedRoute(e.target.value)}>
                     <option value="">--Select Route--</option>
                     {routes.map(route => (
                         <option key={route.id} value={route.id}>{route.sourceCity} to {route.destinationCity}</option>
@@ -63,7 +82,7 @@ function BookingForm() {
             </div>
             <div>
                 <label>Select Bus:</label>
-                <select onChange={e => setSelectedBus(e.target.value)}>
+                <select value={selectedBus || ''} onChange={e => setSelectedBus(e.target.value)}>
                     <option value="">--Select Bus--</option>
                     {buses.map(bus => (
                         <option key={bus.id} value={bus.id}>{bus.departureTime}</option>
@@ -78,7 +97,9 @@ function BookingForm() {
                 <label>Email:</label>
                 <input type="email" value={userEmail} onChange={e => setUserEmail(e.target.value)} />
             </div>
-            <button onClick={handleBooking}>Confirm Booking</button>
+            <button onClick={handleBooking} disabled={isLoading}>
+                {isLoading ? "Booking..." : "Confirm Booking"}
+            </button>
         </div>
     );
 }

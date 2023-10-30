@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import bus.backend.services.TicketService;
 import bus.backend.models.Bus;
+import bus.backend.models.Route;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -19,7 +20,12 @@ public class RouteController {
     @Autowired
     private TicketService service;
 
-    @GetMapping("/{routeId}")
+    @GetMapping
+    public List<Route> getAllRoutes() {
+        return service.getAllRoutes();
+    }
+
+    @GetMapping("/{routeId}/buses")
     public List<Bus> getBusesForRoute(@PathVariable Long routeId) {
         return service.getBusesForRoute(routeId);
     }
