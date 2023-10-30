@@ -11,12 +11,11 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Ticket {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     @ManyToOne
     private Bus bus;
     private LocalDate bookingDate;
-
+    private String email;
     private String username;
 
     // getters and setters
@@ -37,11 +36,11 @@ public class Ticket {
         this.bus = bus;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -51,5 +50,13 @@ public class Ticket {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

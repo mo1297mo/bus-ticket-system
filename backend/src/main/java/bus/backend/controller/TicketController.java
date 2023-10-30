@@ -2,6 +2,7 @@ package bus.backend.controller;
 
 import java.util.List;
 
+import bus.backend.models.TicketDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,8 +24,7 @@ public class TicketController {
     private TicketService service;
 
     @PostMapping("/book")
-    public Ticket bookTicket(@RequestBody Ticket ticket) {
+    public Ticket bookTicket(@RequestBody TicketDTO ticket) {
         return service.bookTicket(ticket);
     }
-
 }
