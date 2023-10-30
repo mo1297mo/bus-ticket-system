@@ -1,24 +1,26 @@
-import logo from './logo.svg';
+
 import './App.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import BookingForm from './components/BookingForm';
+// ... import other components
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <div className="App-content">
+          <Routes>
+            <Route path="/" element={<BookingForm />} />
+            {/* 
+                Add more routes here as you develop more components.
+                For example, if you create BusSelection and TicketBooking components:
+                <Route path="/buses/:routeId" element={<BusSelection />} />
+                <Route path="/book/:busId" element={<TicketBooking />} />
+            */}
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 
