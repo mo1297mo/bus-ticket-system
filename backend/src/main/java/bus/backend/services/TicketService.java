@@ -98,12 +98,23 @@ public class TicketService {
 
     // Cancel a ticket
     public boolean cancelTicket(String id) {
-        if (ticketRepo.existsById(id)) {
-            ticketRepo.deleteById(id);
-            return true;
+        try {
+            if (ticketRepo.existsById(id)) {
+                ticketRepo.deleteById(id);
+                return true;
+            } else {
+                System.err.println("Ticket with ID: " + id + " does not exist.");
+                return false;
+            }
+        } catch (Exception e) {
+            System.err.println("Error during the cancellation of ticket with ID: " + id);
+            e.printStackTrace();
+            return false;
         }
-        return false;
     }
+
+
+
 
     // Send SMS Ticket Confirmation
     private void sendSmsTicketConfirmation(String userPhoneNumber, String ticketId) {

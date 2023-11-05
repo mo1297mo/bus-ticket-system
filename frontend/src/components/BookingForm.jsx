@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+
 
 function BookingForm() {
     const [routes, setRoutes] = useState([]);
@@ -120,6 +122,7 @@ function BookingForm() {
             <button onClick={handleBooking} disabled={isLoading}>
                 {isLoading ? 'Booking...' : 'Confirm Booking'}
             </button>
+            <p>If you want to cancel an existing booking, <Link to="/cancel">click here</Link>.</p>
         </div>
     );
 }
