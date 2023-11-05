@@ -18,6 +18,8 @@ public class Ticket {
     private String email;
     private String username;
 
+    private String PhoneNumber;
+
     // getters and setters
 
     public LocalDate getBookingDate() {
@@ -58,5 +60,13 @@ public class Ticket {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return PhoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        PhoneNumber = phoneNumber;
     }
 }

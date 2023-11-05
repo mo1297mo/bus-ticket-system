@@ -1,6 +1,7 @@
 package bus.backend.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import bus.backend.models.Bus;
@@ -11,9 +12,14 @@ import bus.backend.repositories.BusRepository;
 import bus.backend.repositories.RouteRepository;
 import bus.backend.repositories.TicketRepository;
 
+import javax.annotation.PostConstruct;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.List;
+
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 
 @Service
 public class TicketService {
@@ -27,42 +33,49 @@ public class TicketService {
     @Autowired
     private TicketRepository ticketRepo;
 
+    @Value("${twilio.account_sid}")
+    private String twilioAccountSid;
+
+    @Value("${twilio.auth_token}")
+    private String twilioAuthToken;
+
+    @Value("${twilio.phone_number}")
+    private String twilioPhoneNumber;
+
     private static final String ALPHANUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     private static final SecureRandom RANDOM = new SecureRandom();
 
-    // Book a ticket
+    @PostConstruct
+    public void init() {
+        Twilio.init(twilioAccountSid, twilioAuthToken);
+    }
 
+    // Book a ticket
     public Ticket bookTicket(TicketDTO ticketDTO) {
-        // Fetch the Bus entity using the busId from the TicketDTO
         Bus bus = busRepo.findById(ticketDTO.getBusId())
                 .orElseThrow(() -> new RuntimeException("Bus not found"));
 
-        // Optional: Check if the bus is associated with the routeId from the TicketDTO
         Route route = routeRepo.findById(ticketDTO.getRouteId())
                 .orElseThrow(() -> new RuntimeException("Route not found"));
+
         if (!bus.getRoute().equals(route)) {
             throw new RuntimeException("Bus is not associated with the route");
         }
 
-        // Create a new Ticket entity and set its properties
         Ticket ticket = new Ticket();
         ticket.setId(generateTicketId());
         ticket.setBus(bus);
         ticket.setEmail(ticketDTO.getUserEmail());
         ticket.setUsername(ticketDTO.getUserName());
-        ticket.setBookingDate(LocalDate.now()); // Assuming the booking date is set to the current date
+        ticket.setPhoneNumber(ticketDTO.getPhoneNumber());
+        ticket.setBookingDate(LocalDate.now());
 
-        // Save and return the new Ticket entity
-        return ticketRepo.save(ticket);
-    }
+        Ticket savedTicket = ticketRepo.save(ticket);
 
-    // Get available buses for a given route
-    public List<Bus> getBusesForRoute(Long routeId) {
-        return busRepo.findByRouteId(routeId);
-    }
+        // After saving the ticket, send an SMS
+        sendSmsTicketConfirmation(savedTicket.getPhoneNumber(), savedTicket.getId());
 
-    public List<Route> getAllRoutes() {
-        return routeRepo.findAll();
+        return savedTicket;
     }
 
     // Generate an 8-digit alphanumeric ID
@@ -74,7 +87,46 @@ public class TicketService {
         return sb.toString();
     }
 
-    // Additional methods as required, e.g.:
-    // - Cancel a ticket
+    // Get available buses for a given route
+    public List<Bus> getBusesForRoute(Long routeId) {
+        return busRepo.findByRouteId(routeId);
+    }
 
+    public List<Route> getAllRoutes() {
+        return routeRepo.findAll();
+    }
+
+    // Cancel a ticket
+    public boolean cancelTicket(String id) {
+        if (ticketRepo.existsById(id)) {
+            ticketRepo.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    // Send SMS Ticket Confirmation
+    private void sendSmsTicketConfirmation(String userPhoneNumber, String ticketId) {
+        if (userPhoneNumber == null || ticketId == null) {
+            System.err.println("Failed to send SMS: User phone number or ticket ID is null.");
+            return; // Exit the method if there is nothing to send
+        }
+
+        try {
+            String messageBody = "Thank you for booking with us. Your Ticket ID is: " + ticketId;
+            Message message = Message.creator(
+                    new PhoneNumber(userPhoneNumber),
+                    new PhoneNumber(twilioPhoneNumber),
+                    messageBody
+            ).create();
+
+            System.out.println("Sent message with ID: " + message.getSid());
+        } catch (Exception e) {
+            System.err.println("Error sending SMS: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+
+    // Other methods as required...
 }

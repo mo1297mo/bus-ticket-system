@@ -4,6 +4,7 @@ import java.util.List;
 
 import bus.backend.models.TicketDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,5 +27,15 @@ public class TicketController {
     @PostMapping("/book")
     public Ticket bookTicket(@RequestBody TicketDTO ticket) {
         return service.bookTicket(ticket);
+    }
+
+    @DeleteMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelTicket(@PathVariable String id) {
+        boolean isCancelled = service.cancelTicket(id);
+        if (isCancelled) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

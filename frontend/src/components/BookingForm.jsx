@@ -3,11 +3,12 @@ import axios from 'axios';
 
 function BookingForm() {
     const [routes, setRoutes] = useState([]);
-    const [selectedRoute, setSelectedRoute] = useState(null);
+    const [selectedRoute, setSelectedRoute] = useState('');
     const [buses, setBuses] = useState([]);
-    const [selectedBus, setSelectedBus] = useState(null);
-    const [userName, setUserName] = useState("");
-    const [userEmail, setUserEmail] = useState("");
+    const [selectedBus, setSelectedBus] = useState('');
+    const [userName, setUserName] = useState('');
+    const [userEmail, setUserEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     // Base URL setup
@@ -40,23 +41,33 @@ function BookingForm() {
     }, [selectedRoute]);
 
     const resetForm = () => {
-        setSelectedRoute(null);
-        setSelectedBus(null);
-        setUserName("");
-        setUserEmail("");
+        setSelectedRoute('');
+        setSelectedBus('');
+        setUserName('');
+        setUserEmail('');
+        setPhoneNumber('');
     };
 
     const handleBooking = () => {
+        // Basic validation for phone number format
+        const phonePattern = /^\+\d{11,14}$/; // Simple regex for international phone numbers
+        if (!phonePattern.test(phoneNumber)) {
+            alert('Please enter a valid phone number in international format.');
+            return;
+        }
+
         setIsLoading(true);
         const bookingDetails = {
             routeId: selectedRoute,
             busId: selectedBus,
             userName: userName,
-            userEmail: userEmail
+            userEmail: userEmail,
+            phoneNumber: phoneNumber  // Corrected to match the backend DTO
         };
+
         axios.post('/api/tickets/book', bookingDetails)
             .then(response => {
-                alert('Booking confirmed!');
+                alert('Booking confirmed! We just sent you a SMS with your ticket code.');
                 resetForm();
             })
             .catch(error => {
@@ -73,7 +84,7 @@ function BookingForm() {
             <h2>Booking Form</h2>
             <div>
                 <label>Select Route:</label>
-                <select value={selectedRoute || ''} onChange={e => setSelectedRoute(e.target.value)}>
+                <select value={selectedRoute} onChange={e => setSelectedRoute(e.target.value)}>
                     <option value="">--Select Route--</option>
                     {routes.map(route => (
                         <option key={route.id} value={route.id}>{route.sourceCity} to {route.destinationCity}</option>
@@ -82,7 +93,7 @@ function BookingForm() {
             </div>
             <div>
                 <label>Select Bus:</label>
-                <select value={selectedBus || ''} onChange={e => setSelectedBus(e.target.value)}>
+                <select value={selectedBus} onChange={e => setSelectedBus(e.target.value)}>
                     <option value="">--Select Bus--</option>
                     {buses.map(bus => (
                         <option key={bus.id} value={bus.id}>{bus.departureTime}</option>
@@ -97,8 +108,17 @@ function BookingForm() {
                 <label>Email:</label>
                 <input type="email" value={userEmail} onChange={e => setUserEmail(e.target.value)} />
             </div>
+            <div>
+                <label>Phone Number:</label>
+                <input
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={e => setPhoneNumber(e.target.value)}
+                    placeholder="Enter your phone number"
+                />
+            </div>
             <button onClick={handleBooking} disabled={isLoading}>
-                {isLoading ? "Booking..." : "Confirm Booking"}
+                {isLoading ? 'Booking...' : 'Confirm Booking'}
             </button>
         </div>
     );
