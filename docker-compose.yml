@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/busticket
+      SPRING_DATASOURCE_USERNAME: busticket
+      SPRING_DATASOURCE_PASSWORD: busticket
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      spring.jpa.show-sql: true
+
+      # application.properties
+      twilio.account_sid: AC9267c0ad79175d378509040c077699d0
+      twilio.auth_token: e7fa255b1c5a3a34da528ae5b2a49241
+      twilio.phone_number: "+14152336283"
+      # Other environment variables your backend needs
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: busticket
+      POSTGRES_USER: busticket
+      POSTGRES_PASSWORD: busticket
+    ports:
+      - "5430:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
