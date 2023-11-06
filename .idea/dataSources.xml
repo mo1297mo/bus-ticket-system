@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="busticket@localhost" uuid="5c3bb4b5-2b7d-430d-b77b-13760ab6ed0f">
+    <data-source source="LOCAL" name="busticket@209.38.248.153" uuid="5c3bb4b5-2b7d-430d-b77b-13760ab6ed0f">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://209.38.248.153:5430/busticket</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="busticket@localhost" uuid="65440abe-3a94-448d-9c29-ddfa77bf1263">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
