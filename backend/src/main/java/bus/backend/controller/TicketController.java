@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import bus.backend.models.Ticket;
 import bus.backend.services.TicketService;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = { "http://localhost:3000", "http://138.197.185.210:3000" })
 @RestController
 @RequestMapping("/api/tickets")
 public class TicketController {
