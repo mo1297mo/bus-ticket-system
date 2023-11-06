@@ -17,12 +17,14 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/busticket
-      SPRING_DATASOURCE_USERNAME: busticket
-      SPRING_DATASOURCE_PASSWORD: busticket
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       spring.jpa.show-sql: true
-      # Other environment variables your backend needs
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      TWILIO_PHONE_NUMBER: ${TWILIO_PHONE_NUMBER}
     ports:
       - "8000:8000"
     depends_on:
@@ -33,9 +35,9 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGRES_DB: busticket
-      POSTGRES_USER: busticket
-      POSTGRES_PASSWORD: busticket
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5430:5432"
     volumes:
