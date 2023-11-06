@@ -22,11 +22,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: busticket
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       spring.jpa.show-sql: true
-
-      # application.properties
-      twilio.account_sid: AC9267c0ad79175d378509040c077699d0
-      twilio.auth_token: e7fa255b1c5a3a34da528ae5b2a49241
-      twilio.phone_number: "+14152336283"
       # Other environment variables your backend needs
     ports:
       - "8000:8000"

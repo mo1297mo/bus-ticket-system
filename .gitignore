@@ -396,3 +396,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# .env file should be ignored in all cases
+.env.development
+.env.production
+.env
