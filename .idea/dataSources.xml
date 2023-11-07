@@ -15,5 +15,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5430/busticket</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="webtech@dpg-ckn4kpv83ejs739ks07g-a" uuid="9eeab6ff-0c3d-4e06-a4e6-b012f52b885b">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://dpg-ckn4kpv83ejs739ks07g-a:5432/webtech</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

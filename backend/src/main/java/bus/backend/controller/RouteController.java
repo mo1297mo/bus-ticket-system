@@ -13,7 +13,6 @@ import bus.backend.services.TicketService;
 import bus.backend.models.Bus;
 import bus.backend.models.Route;
 
-@CrossOrigin(origins = { "http://localhost:3000", "http://209.38.248.153:3000" })
 @RestController
 @RequestMapping("/api/routes")
 public class RouteController {

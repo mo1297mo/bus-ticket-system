@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import bus.backend.services.TicketService;
 import bus.backend.models.Bus;
 
-@CrossOrigin(origins = { "http://localhost:3000", "http://209.38.248.153:3000" })
+
 @RestController
 @RequestMapping("/api/buses")
 public class BusController {
