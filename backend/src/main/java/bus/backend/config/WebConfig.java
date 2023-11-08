@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${cors.allowed-origins}")
+    @Value("https://frontend-w57u.onrender.com")
     private String[] allowedOrigins;
 
     @Override
@@ -19,4 +19,3 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
     }
 }
-
