@@ -399,5 +399,4 @@ FodyWeavers.xsd
 
 # .env file should be ignored in all cases
 .env.development
-.env.production
 .env
