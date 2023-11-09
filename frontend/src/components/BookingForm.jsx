@@ -14,7 +14,7 @@ function BookingForm() {
     const [isLoading, setIsLoading] = useState(false);
 
     // Base URL setup
-    axios.defaults.baseURL = "https://backend-y2f7.onrender.com";
+    axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
 
     useEffect(() => {
         // Fetch the routes
