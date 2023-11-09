@@ -19,6 +19,12 @@ RUN gradle --version
 # Copy the Gradle files and your source code into the container
 COPY . .
 
+# ARG instruction to declare the environment variable
+ARG REACT_APP_API_BASE_URL
+
+# Use the ARG to set the environment variable for the build stage
+ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
+
 # Use the installed Gradle to build the application but -x test to skip tests
 RUN gradle clean build -x test
 
