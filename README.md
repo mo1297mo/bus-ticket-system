@@ -22,6 +22,8 @@ The Bus Ticket Booking System boasts the following functionalities:
 - **Seat Availability**: The application ensures real-time seat availability checks to prevent overbooking. (Not done yet)
 - **Database Integration**: User data and bookings are stored in a Postgres database.
 
+<img width="1329" alt="Bildschirmfoto 2023-11-09 um 22 27 17" src="https://github.com/mo1297mo/bus-ticket-system/assets/96695287/cac0fc42-71c3-4b99-847b-78fc75d8c042">
+
 ## Technologies
 
 The technological stack underpinning this project includes:
