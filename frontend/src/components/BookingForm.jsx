@@ -84,7 +84,7 @@ function BookingForm() {
 
     return (
         <div className="container mt-5">
-            <h2 className="mb-4">Booking Form</h2>
+            <h2 className="mb-4">Bus Booking Form</h2>
             <form>
                 <div className="form-group">
                     <label>Select Route:</label>
