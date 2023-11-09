@@ -4,6 +4,12 @@ FROM node:16 as build
 # Set the working directory in the container
 WORKDIR /app
 
+# ARG instruction to declare the build-time environment variable
+ARG REACT_APP_API_BASE_URL
+
+# Use the ARG to set the environment variable for the build stage
+ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
+
 # Copy package.json and package-lock.json to work directory
 COPY package.json package-lock.json ./
 
