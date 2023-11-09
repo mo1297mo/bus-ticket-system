@@ -10,7 +10,7 @@ const CancelTicket = () => {
 
     const cancelTicket = async () => {
         // Define the base URL with a fallback to "http://localhost:8000"
-        const baseURL = process.env.REACT_APP_API_BASE_URL || "http://localhost:8000";
+        const baseURL = process.env.REACT_APP_API_BASE_URL;
 
         try {
             // Use the baseURL to construct the full URL for the request
