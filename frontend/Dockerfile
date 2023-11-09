@@ -5,7 +5,7 @@ FROM node:16 as build
 WORKDIR /app
 
 # ARG instruction to declare the build-time environment variable
-ARG REACT_APP_API_BASE_URL
+ARG REACT_APP_API_BASE_URL=http://192.168.178.104:8000
 
 # Use the ARG to set the environment variable for the build stage
 ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}

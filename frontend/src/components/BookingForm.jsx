@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 function BookingForm() {
@@ -82,47 +83,44 @@ function BookingForm() {
     };
 
     return (
-        <div>
-            <h2>Booking Form</h2>
-            <div>
-                <label>Select Route:</label>
-                <select value={selectedRoute} onChange={e => setSelectedRoute(e.target.value)}>
-                    <option value="">--Select Route--</option>
-                    {routes.map(route => (
-                        <option key={route.id} value={route.id}>{route.sourceCity} to {route.destinationCity}</option>
-                    ))}
-                </select>
-            </div>
-            <div>
-                <label>Select Bus:</label>
-                <select value={selectedBus} onChange={e => setSelectedBus(e.target.value)}>
-                    <option value="">--Select Bus--</option>
-                    {buses.map(bus => (
-                        <option key={bus.id} value={bus.id}>{bus.departureTime}</option>
-                    ))}
-                </select>
-            </div>
-            <div>
-                <label>Name:</label>
-                <input type="text" value={userName} onChange={e => setUserName(e.target.value)} />
-            </div>
-            <div>
-                <label>Email:</label>
-                <input type="email" value={userEmail} onChange={e => setUserEmail(e.target.value)} />
-            </div>
-            <div>
-                <label>Phone Number:</label>
-                <input
-                    type="tel"
-                    value={phoneNumber}
-                    onChange={e => setPhoneNumber(e.target.value)}
-                    placeholder="Enter your phone number"
-                />
-            </div>
-            <button onClick={handleBooking} disabled={isLoading}>
-                {isLoading ? 'Booking...' : 'Confirm Booking'}
-            </button>
-            <p>If you want to cancel an existing booking, <Link to="/cancel">click here</Link>.</p>
+        <div className="container mt-5">
+            <h2 className="mb-4">Booking Form</h2>
+            <form>
+                <div className="form-group">
+                    <label>Select Route:</label>
+                    <select className="form-control" value={selectedRoute} onChange={e => setSelectedRoute(e.target.value)}>
+                        <option value="">--Select Route--</option>
+                        {routes.map(route => (
+                            <option key={route.id} value={route.id}>{route.sourceCity} to {route.destinationCity}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Select Bus:</label>
+                    <select className="form-control" value={selectedBus} onChange={e => setSelectedBus(e.target.value)}>
+                        <option value="">--Select Bus--</option>
+                        {buses.map(bus => (
+                            <option key={bus.id} value={bus.id}>{bus.departureTime}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label>Name:</label>
+                    <input type="text" className="form-control" value={userName} onChange={e => setUserName(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Email:</label>
+                    <input type="email" className="form-control" value={userEmail} onChange={e => setUserEmail(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label>Phone Number:</label>
+                    <input type="tel" className="form-control" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} placeholder="Enter your phone number" />
+                </div>
+                <button type="button" className="btn btn-primary" onClick={handleBooking} disabled={isLoading}>
+                    {isLoading ? 'Booking...' : 'Confirm Booking'}
+                </button>
+            </form>
+            <p className="mt-3">If you want to cancel an existing booking, <Link to="/cancel">click here</Link>.</p>
         </div>
     );
 }
