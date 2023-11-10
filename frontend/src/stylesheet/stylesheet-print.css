@@ -1,0 +1,28 @@
+@media print {
+    @page {
+        margin: 0;
+        size: auto;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
+    .ticket-container,
+    .ticket-container * {
+        visibility: visible;
+    }
+
+    .ticket-container {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .print-button {
+        display: none;
+    }
+
+    /* Add here any other elements you want to hide during print */
+}

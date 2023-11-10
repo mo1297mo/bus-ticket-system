@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -95,6 +96,34 @@ public class TicketService {
     public List<Route> getAllRoutes() {
         return routeRepo.findAll();
     }
+
+    public TicketDTO getTicketDetails(String ticketId) {
+        Optional<Ticket> ticketOptional = ticketRepo.findById(ticketId); // Use ticketRepo instance
+        if (ticketOptional.isEmpty()) {
+            throw new RuntimeException("Ticket not found with id: " + ticketId);
+        }
+
+        Ticket ticket = ticketOptional.get();
+        Bus bus = ticket.getBus();
+        Route route = bus.getRoute();
+
+        TicketDTO dto = new TicketDTO();
+        dto.setId(ticket.getId()); // Assuming there's a setter for ID in TicketDTO
+        dto.setBusId(bus.getId());
+        dto.setRouteId(route.getId());
+        dto.setUserEmail(ticket.getEmail());
+        dto.setUserName(ticket.getUsername());
+        dto.setPhoneNumber(ticket.getPhoneNumber());
+        // Assuming you have setters for the following fields in TicketDTO
+        dto.setSourceCity(route.getSourceCity());
+        dto.setDestinationCity(route.getDestinationCity());
+        dto.setDepartureTime(bus.getDepartureTime());
+        dto.setBookingDate(ticket.getBookingDate());
+
+        return dto;
+    }
+
+
 
     // Cancel a ticket
     public boolean cancelTicket(String id) {

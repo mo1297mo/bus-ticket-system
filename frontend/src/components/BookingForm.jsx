@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../stylesheet/stylesheet.css';
 
 
 function BookingForm() {
@@ -13,6 +14,7 @@ function BookingForm() {
     const [userEmail, setUserEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
 
     // Base URL setup
     axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
@@ -70,8 +72,21 @@ function BookingForm() {
 
         axios.post('/api/tickets/book', bookingDetails)
             .then(response => {
-                alert('Booking confirmed! We just sent you a SMS with your ticket code.');
-                resetForm();
+                const ticketData = response.data;
+                const ticket = {
+                    id: ticketData.id,
+                    busId: ticketData.bus.id,
+                    routeId: ticketData.bus.route.id,
+                    sourceCity: ticketData.bus.route.sourceCity,
+                    destinationCity: ticketData.bus.route.destinationCity,
+                    departureTime: ticketData.bus.departureTime,
+                    bookingDate: ticketData.bookingDate,
+                    userEmail: ticketData.email,
+                    userName: ticketData.username,
+                    phoneNumber: ticketData.phoneNumber,
+                };
+
+                navigate('/print-ticket', { state: { ticket } });
             })
             .catch(error => {
                 console.error("Error during booking:", error);

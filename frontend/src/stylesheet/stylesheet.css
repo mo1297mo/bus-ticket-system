@@ -1,0 +1,94 @@
+.ticket-container {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #f9f9f9;
+    /* Light grey background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+    /* Darker text for better readability */
+    max-width: 700px;
+    /* Adjust based on your preference */
+    margin: 2rem auto;
+    padding: 1rem;
+    position: relative;
+    /* For positioning the blue stripe */
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.ticket-header h1 {
+    color: #000;
+    /* Title color */
+    font-weight: bold;
+}
+
+.ticket-body {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    /* Adjust based on your preference */
+    column-gap: 1rem;
+}
+
+.ticket-info {
+    border-right: 2px dashed #ccc;
+    /* Dashed line for separation */
+    padding-right: 1rem;
+}
+
+.ticket-info p,
+.ticket-info span {
+    display: block;
+    /* Makes each piece of info display on a new line */
+    margin-bottom: 0.5rem;
+    /* Adjust spacing between lines */
+}
+
+.qr-section {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.qr-section span {
+    display: block;
+    margin-top: 0.5rem;
+}
+
+.print-button {
+    background-color: #007bff;
+    /* Bootstrap primary button color */
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    width: 100%;
+    /* Makes the button expand to full container width */
+    margin-top: 1rem;
+}
+
+/* Blue stripe at the bottom */
+.ticket-container::after {
+    content: '';
+    display: block;
+    height: 20px;
+    /* Height of the blue stripe */
+    background-color: #007bff;
+    /* Bootstrap primary color */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+/* Ensures QR code does not get too large */
+.qr-section canvas {
+    width: 100px;
+    height: 100px;
+}

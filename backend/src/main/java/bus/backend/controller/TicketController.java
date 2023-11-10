@@ -28,6 +28,12 @@ public class TicketController {
         return service.bookTicket(ticket);
     }
 
+    @GetMapping("/{ticketId}")
+    public ResponseEntity<TicketDTO> getTicketDetails(@PathVariable String ticketId) {
+        TicketDTO ticketDTO = service.getTicketDetails(ticketId);
+        return ResponseEntity.ok(ticketDTO);
+    }
+
     @DeleteMapping("/cancel/{id}")
     public ResponseEntity<?> cancelTicket(@PathVariable String id) {
         boolean isCancelled = service.cancelTicket(id);
