@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBagShopping, faBus, faChair, faLuggageCart, faShoppingBag, faSuitcase, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBus, faLuggageCart, faSuitcase, faUser } from '@fortawesome/free-solid-svg-icons';
 import QRCode from 'qrcode.react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../stylesheet/stylesheet.css';
@@ -15,16 +15,6 @@ const PrintTicket = () => {
         return <div className="alert alert-warning" role="alert">No ticket data available.</div>;
     }
 
-    const {
-        id,
-        routeId,
-        busId,
-        sourceCity,
-        destinationCity,
-        departureTime,
-        bookingDate,
-        userName,
-    } = ticket;
 
     const handlePrint = () => {
         window.print();
@@ -35,7 +25,7 @@ const PrintTicket = () => {
             <div className="ticket-header">
                 <h1>Bus Ticket Details</h1>
                 <div className="qr-section">
-                    <QRCode value={`Ticket ID: ${ticket.id}`} />
+                    <QRCode value={`https://app.ferdous.work/validate/${ticket.id}`} />
                     <span>Ticket number {ticket.id}</span>
                 </div>
             </div>
