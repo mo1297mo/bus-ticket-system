@@ -7,8 +7,14 @@ WORKDIR /app
 # ARG instruction to declare the build-time environment variable
 ARG REACT_APP_API_BASE_URL=http://192.168.178.104:8000
 
+# ARG instruction to declare the build-time environment variable
+ARG REACT_APP_SERVER_URL=http://192.168.178.104:8000
+
 # Use the ARG to set the environment variable for the build stage
 ENV REACT_APP_API_BASE_URL=${REACT_APP_API_BASE_URL}
+
+# Use the ARG to set the environment variable for the build stage
+ENV REACT_APP_SERVER_URL=${REACT_APP_SERVER_URL}
 
 # Copy package.json and package-lock.json to work directory
 COPY package.json package-lock.json ./
