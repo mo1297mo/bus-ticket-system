@@ -45,14 +45,6 @@ function BookingForm() {
         }
     }, [selectedRoute]);
 
-    const resetForm = () => {
-        setSelectedRoute('');
-        setSelectedBus('');
-        setUserName('');
-        setUserEmail('');
-        setPhoneNumber('');
-    };
-
     const handleBooking = () => {
         // Basic validation for phone number format
         const phonePattern = /^\+\d{11,14}$/; // Simple regex for international phone numbers

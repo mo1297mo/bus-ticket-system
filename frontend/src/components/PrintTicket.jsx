@@ -25,7 +25,7 @@ const PrintTicket = () => {
             <div className="ticket-header">
                 <h1>Bus Ticket Details</h1>
                 <div className="qr-section">
-                    <QRCode value={`https://app.ferdous.work/validate/${ticket.id}`} />
+                    <QRCode value={`${process.env.REACT_APP_SERVER_URL}/validate/${ticket.id}`} />
                     <span>Ticket number {ticket.id}</span>
                 </div>
             </div>

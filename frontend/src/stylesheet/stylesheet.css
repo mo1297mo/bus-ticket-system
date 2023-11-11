@@ -92,3 +92,41 @@
     width: 100px;
     height: 100px;
 }
+
+.ticket-validation {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.validation-details {
+    display: inline-block;
+    text-align: left;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.valid-text {
+    display: block;
+    color: green;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.valid-icon {
+    color: green;
+    margin: 0 auto;
+    /* This will center the icon */
+    display: block;
+    /* Necessary to allow margin to center the element */
+}
+
+/* If you want a custom green tick icon, you might add styles for it here */
+.fa-check-circle {
+    margin-bottom: 10px;
+    font-size: 3rem;
+    color: green;
+    margin: 20px auto;
+}

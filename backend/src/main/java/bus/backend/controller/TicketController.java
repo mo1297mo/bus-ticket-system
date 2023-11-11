@@ -1,9 +1,12 @@
 package bus.backend.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bus.backend.models.TicketDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,10 +32,20 @@ public class TicketController {
     }
 
     @GetMapping("/{ticketId}")
-    public ResponseEntity<TicketDTO> getTicketDetails(@PathVariable String ticketId) {
-        TicketDTO ticketDTO = service.getTicketDetails(ticketId);
-        return ResponseEntity.ok(ticketDTO);
+    public ResponseEntity<?> getTicketDetails(@PathVariable String ticketId) {
+        try {
+            TicketDTO ticketDTO = service.getTicketDetails(ticketId);
+            return ResponseEntity.ok(ticketDTO);
+        } catch (RuntimeException ex) {
+            // Create a response body that your front-end expects
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("status", HttpStatus.NOT_FOUND.value());
+            errorResponse.put("error", "Ticket not found with id: " + ticketId);
+            // Return a ResponseEntity with the custom error response and HTTP status code
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
     }
+
 
     @DeleteMapping("/cancel/{id}")
     public ResponseEntity<?> cancelTicket(@PathVariable String id) {

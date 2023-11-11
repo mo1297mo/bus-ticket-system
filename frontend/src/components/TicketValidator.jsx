@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 const TicketValidator = () => {
     const { ticketID } = useParams(); // Get the ticketID from the URL
@@ -9,13 +11,23 @@ const TicketValidator = () => {
 
     useEffect(() => {
         const fetchTicketDetails = async () => {
+            setIsLoading(true);
             try {
-                const response = await fetch(`/api/tickets/${ticketID}`);
-                if (!response.ok) {
-                    throw new Error('Ticket not found or error fetching ticket details');
+                const baseURL = process.env.REACT_APP_API_BASE_URL;
+                const response = await fetch(`${baseURL}/api/tickets/${ticketID}`);
+                const contentType = response.headers.get('content-type');
+
+                // Log the response for debugging
+                console.log("Response Status:", response.status);
+                console.log("Content Type:", contentType);
+
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    const data = await response.json();
+                    setTicketDetails(data);
+                } else {
+                    // This is where you handle non-JSON responses
+                    throw new Error('Received non-JSON response from server');
                 }
-                const data = await response.json();
-                setTicketDetails(data);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -23,8 +35,8 @@ const TicketValidator = () => {
             }
         };
 
-        fetchTicketDetails(); // No need for the if check since ticketID is always provided
-    }, [ticketID]); // Dependency array ensures useEffect is called when ticketID changes
+        fetchTicketDetails();
+    }, [ticketID]);
 
     // Conditional rendering based on the state
     if (isLoading) return <div>Loading...</div>;
@@ -33,18 +45,14 @@ const TicketValidator = () => {
 
     // Render the ticket details
     return (
-        <div>
-            <h1>Ticket Details</h1>
-            <p>ID: {ticketDetails.id}</p>
-            <p>Bus ID: {ticketDetails.bus.id}</p>
-            <p>Route ID: {ticketDetails.bus.route.id}</p>
-            <p>Source City: {ticketDetails.bus.route.sourceCity}</p>
-            <p>Destination City: {ticketDetails.bus.route.destinationCity}</p>
-            <p>Departure Time: {ticketDetails.bus.departureTime}</p>
-            <p>Booking Date: {ticketDetails.bookingDate}</p>
-            <p>Email: {ticketDetails.email}</p>
-            <p>Username: {ticketDetails.username}</p>
-            <p>Phone Number: {ticketDetails.phoneNumber}</p>
+        <div className="ticket-validation">
+            <h1>Booking Validation</h1>
+            <div className="validation-details">
+                <FontAwesomeIcon icon={faCheckCircle} size="3x" color="green" className="valid-icon" />
+                <h1 className="valid-text">Ticket is valid</h1>
+                <p>Booking ID: {ticketDetails?.id}</p>
+                <p>Full Name: {ticketDetails?.userName}</p>
+            </div>
         </div>
     );
 };

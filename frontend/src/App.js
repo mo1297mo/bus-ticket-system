@@ -16,12 +16,10 @@ function App() {
             <Route path="/" element={<BookingForm />} />
             <Route path="/cancel" element={<TicketCancel />} />
             <Route path="/print-ticket" element={<PrintTicket />} />
-            <Route path="/validate/:ticketID" component={TicketValidator} />
+            <Route path="/validate/:ticketID" element={<TicketValidator />} />
+
             {/* 
                 Add more routes here as you develop more components.
-                For example, if you create BusSelection and TicketBooking components:
-                <Route path="/buses/:routeId" element={<BusSelection />} />
-                <Route path="/book/:busId" element={<TicketBooking />} />
             */}
           </Routes>
         </div>
